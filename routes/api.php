@@ -16,8 +16,8 @@ Route::middleware('auth:sanctum')->group(function () {
        Route::get("/", [CategoryController::class, 'list']);
        Route::prefix('{category_id}')->group(function () {
            Route::get("/", [CategoryController::class, 'findById']);
-           Route::post("/", []);
-           Route::delete("/", []);
+           Route::post("/", [CategoryController::class, 'update']);
+           Route::delete("/", [CategoryController::class, 'delete']);
        });
     });
 });

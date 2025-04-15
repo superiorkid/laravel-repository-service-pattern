@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\DTO\CreateCategoryDTO;
+use App\Http\Requests\UpdateCategoryRequest;
 use App\Models\Category;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -29,5 +30,9 @@ class CategoryRepository
         return Category::query()
             ->orderby("name")
             ->get();
+    }
+
+    public function update(Category $category, $updateCategoryDTO): void {
+        $category->update(["name" => $updateCategoryDTO->name, "description" => $updateCategoryDTO->description]);
     }
 }

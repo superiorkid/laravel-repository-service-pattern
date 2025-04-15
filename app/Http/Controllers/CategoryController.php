@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateCategoryRequest;
+use App\Http\Requests\UpdateCategoryRequest;
 use App\Repositories\CategoryRepository;
 use App\Services\CategoryService;
 use Illuminate\Http\JsonResponse;
@@ -27,5 +28,14 @@ class CategoryController extends Controller
 
     public function findById(int $category_id): JsonResponse {
         return $this->categoryService->findOneById($category_id);
+    }
+
+    public function update(UpdateCategoryRequest $request, int $category_id): JsonResponse
+    {
+        return $this->categoryService->update($category_id, $request->toDTO());
+    }
+
+    public function delete() {
+        //
     }
 }

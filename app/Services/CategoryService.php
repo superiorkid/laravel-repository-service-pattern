@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\DTO\CreateCategoryDTO;
+use App\DTO\UpdateCategoryDTO;
 use App\Repositories\CategoryRepository;
 use Illuminate\Http\JsonResponse;
 
@@ -42,6 +43,20 @@ class CategoryService
         try {
             $category = $this->categoryRepository->findById($id);
             return response()->json(["success" => true, "message" => "Category found", "data" => $category], 200);
+        } catch (\Exception $error) {
+            return response()->json(["success" => false, "message" => $error->getMessage()], 500);
+        }
+    }
+
+    public function update(int $id, UpdateCategoryDTO $updateCategoryDTO): JsonResponse {
+        $category = $this->categoryRepository->findById($id);
+        if (!$category) {
+            return response()->json(["success" => false, "message" => "Category not found"], 404);
+        }
+
+        try {
+            $this->categoryRepository->update($category, $updateCategoryDTO);
+            return response()->json(["success" => true, "message" => "Category updated"], 200);
         } catch (\Exception $error) {
             return response()->json(["success" => false, "message" => $error->getMessage()], 500);
         }
