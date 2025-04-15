@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('auth')->group(function () {
@@ -9,4 +10,15 @@ Route::prefix('auth')->group(function () {
     Route::delete('sign-out', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 });
 
-// protected routes
+Route::middleware('auth:sanctum')->group(function () {
+    Route::prefix('categories')->group(function () {
+       Route::post("/", [CategoryController::class, 'create']);
+       Route::get("/", [CategoryController::class, 'list']);
+       Route::prefix('{category_id}')->group(function () {
+           Route::get("/", [CategoryController::class, 'findById']);
+           Route::post("/", []);
+           Route::delete("/", []);
+       });
+    });
+});
+

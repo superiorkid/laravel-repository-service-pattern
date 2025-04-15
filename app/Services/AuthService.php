@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-
 use App\DTO\SignInDTO;
 use App\DTO\SignUpDTO;
 use App\Repositories\UserRepository;

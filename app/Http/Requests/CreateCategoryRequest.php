@@ -2,11 +2,10 @@
 
 namespace App\Http\Requests;
 
-use App\DTO\SignInDTO;
+use App\DTO\CreateCategoryDTO;
 use Illuminate\Foundation\Http\FormRequest;
-use Spatie\DataTransferObject\Exceptions\UnknownProperties;
 
-class LoginRequest extends FormRequest
+class CreateCategoryRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,15 +23,15 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "email" => "required|string|email",
-            "password" => "required",
+            "name" => 'required|string',
+            'description' => 'nullable|string',
         ];
     }
-    
-    public function toDTO(): SignInDTO {
-        return new SignInDTO(
-            email: $this->email,
-            password: $this->password
+
+    public function toDTO(): CreateCategoryDTO {
+        return new CreateCategoryDTO(
+            name: $this->name,
+            description: $this->description
         );
     }
 }
