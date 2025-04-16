@@ -9,11 +9,11 @@ use Illuminate\Database\Eloquent\Collection;
 
 class CategoryRepository
 {
-    public function findById(int $id): Category {
+    public function findById(int $id): Category | null {
         return Category::query()->find($id);
     }
 
-    public function findByName(string $name): Category {
+    public function findByName(string $name): Category | null {
         return Category::query()
             ->where('name', $name)
             ->first();
