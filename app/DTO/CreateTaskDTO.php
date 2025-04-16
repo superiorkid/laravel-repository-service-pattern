@@ -8,4 +8,5 @@ class CreateTaskDTO extends DataTransferObject
 {
     public string $title;
     public ?string $description;
+    public int $category_id;
 }

@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateTaskRequest;
+use App\Http\Requests\UpdateTaskRequest;
 use App\Services\TaskService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
@@ -22,5 +22,17 @@ class TaskController extends Controller
 
     public function list(): JsonResponse {
         return $this->taskService->listAll();
+    }
+
+    public function findById(int $task_id): JsonResponse {
+        return $this->taskService->findById($task_id);
+    }
+
+    public function delete(int $task_id): JsonResponse {
+        return $this->taskService->delete($task_id);
+    }
+
+    public function update(UpdateTaskRequest $request,  int $task_id): JsonResponse {
+        return $this->taskService->update($task_id, $request->toDTO());
     }
 }

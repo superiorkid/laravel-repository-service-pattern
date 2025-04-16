@@ -25,13 +25,15 @@ class CreateTaskRequest extends FormRequest
         return [
             "title" => "required|string",
             "description" => "nullable|string",
+            "category_id" => "required|integer|exists:categories,id",
         ];
     }
 
     public function toDTO(): CreateTaskDTO {
         return new CreateTaskDTO(
             title: $this->title,
-            description: $this->description
+            description: $this->description,
+            category_id: $this->category_id
         );
     }
 }

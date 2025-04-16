@@ -3,6 +3,8 @@
 namespace App\Repositories;
 
 use App\DTO\CreateTaskDTO;
+use App\DTO\UpdateCategoryDTO;
+use App\DTO\UpdateTaskDTO;
 use App\Enums\TaskPriority;
 use App\Enums\TaskStatus;
 use App\Models\Task;
@@ -56,11 +58,12 @@ class TaskRepository
             ->get();
     }
 
-    public function save(string $title, string $slug, ?string $description,): Task {
+    public function save(CreateTaskDTO $createTaskDTO, string $slug): Task {
         return Task::query()->create([
-            "title" => $title,
+            "title" => $createTaskDTO->title,
             "slug" => $slug,
-            "description" => $description,
+            "description" => $createTaskDTO->description,
+            "category_id" => $createTaskDTO->category_id,
         ]);
     }
 
@@ -69,4 +72,20 @@ class TaskRepository
             ->orderByDesc('created_at')
             ->get();
     }
+
+    public function delete(Task $task): void {
+        $task->delete();
+    }
+
+    public function update(Task $task, UpdateTaskDTO $updateTaskDTO, ?string $slug): void {
+        $task->update([
+            "title" => $updateTaskDTO->title ?? $task->title,
+            "slug" => $slug ?? $task->slug,
+            "description" => $updateTaskDTO->description ?? $task->description,
+            "category_id" => $updateTaskDTO->category_id ?? $task->category_id,
+            "completed_at" => $updateTaskDTO->completed_at ?? $task->completed_at ?? null,
+            "due_date" => $updateTaskDTO->due_date ?? $task->due_date ?? null
+        ]);
+    }
 }
+
