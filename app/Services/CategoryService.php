@@ -6,6 +6,7 @@ use App\DTO\CreateCategoryDTO;
 use App\DTO\UpdateCategoryDTO;
 use App\Repositories\CategoryRepository;
 use Illuminate\Http\JsonResponse;
+use Mockery\Exception;
 
 class CategoryService
 {
@@ -58,6 +59,20 @@ class CategoryService
             $this->categoryRepository->update($category, $updateCategoryDTO);
             return response()->json(["success" => true, "message" => "Category updated"], 200);
         } catch (\Exception $error) {
+            return response()->json(["success" => false, "message" => $error->getMessage()], 500);
+        }
+    }
+
+    public function delete(int $id): JsonResponse {
+        $category = $this->categoryRepository->findById($id);
+        if (!$category) {
+            return response()->json(["success" => false, "message" => "Category not found"], 404);
+        }
+
+        try {
+            $this->categoryRepository->delete($category);
+            return response()->json(["success" => true, "message" => "Category deleted"], 200);
+        } catch (\Exception $error){
             return response()->json(["success" => false, "message" => $error->getMessage()], 500);
         }
     }

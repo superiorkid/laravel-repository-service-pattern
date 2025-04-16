@@ -35,4 +35,8 @@ class CategoryRepository
     public function update(Category $category, $updateCategoryDTO): void {
         $category->update(["name" => $updateCategoryDTO->name, "description" => $updateCategoryDTO->description]);
     }
+
+    public function delete(Category $category): void {
+        $category->delete();
+    }
 }

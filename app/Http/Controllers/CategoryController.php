@@ -4,10 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
-use App\Repositories\CategoryRepository;
 use App\Services\CategoryService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
@@ -35,7 +33,7 @@ class CategoryController extends Controller
         return $this->categoryService->update($category_id, $request->toDTO());
     }
 
-    public function delete() {
-        //
+    public function delete(int $category_id): JsonResponse {
+        return $this->categoryService->delete($category_id);
     }
 }
