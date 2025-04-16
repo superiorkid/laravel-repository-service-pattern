@@ -22,7 +22,7 @@ return new class extends Migration
             $table
                 ->enum('status', array_column(TaskStatus::cases(), 'value'))
                 ->default(TaskStatus::TODO->value);
-            $table->enum('priority', array_column(TaskPriority::cases(), "value"));
+            $table->enum('priority', array_column(TaskPriority::cases(), "value"))->nullable();
             $table->unsignedBigInteger('category_id')->index();
             $table->timestamp('due_date')->nullable();
             $table->timestamp('completed_at')->nullable();

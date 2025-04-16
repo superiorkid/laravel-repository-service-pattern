@@ -3,13 +3,12 @@
 namespace App\Repositories;
 
 use App\DTO\CreateTaskDTO;
-use App\DTO\UpdateCategoryDTO;
 use App\DTO\UpdateTaskDTO;
 use App\Enums\TaskPriority;
 use App\Enums\TaskStatus;
 use App\Models\Task;
 use Illuminate\Database\Eloquent\Collection;
-use Ramsey\Collection\Exception\CollectionException;
+use Illuminate\Support\Str;
 
 class TaskRepository
 {
@@ -58,10 +57,10 @@ class TaskRepository
             ->get();
     }
 
-    public function save(CreateTaskDTO $createTaskDTO, string $slug): Task {
+    public function save(CreateTaskDTO $createTaskDTO): Task {
         return Task::query()->create([
             "title" => $createTaskDTO->title,
-            "slug" => $slug,
+            "slug" => Str::slug($createTaskDTO->title),
             "description" => $createTaskDTO->description,
             "category_id" => $createTaskDTO->category_id,
         ]);
@@ -77,12 +76,14 @@ class TaskRepository
         $task->delete();
     }
 
-    public function update(Task $task, UpdateTaskDTO $updateTaskDTO, ?string $slug): void {
+    public function update(Task $task, UpdateTaskDTO $updateTaskDTO): void {
         $task->update([
             "title" => $updateTaskDTO->title ?? $task->title,
-            "slug" => $slug ?? $task->slug,
+            "slug" => isset($updateTaskDTO->title) && $updateTaskDTO->title !== $task->title  ? Str::slug($updateTaskDTO->title) : $task->slug,
             "description" => $updateTaskDTO->description ?? $task->description,
             "category_id" => $updateTaskDTO->category_id ?? $task->category_id,
+            "status" =>  $updateTaskDTO->status ?? $task->status,
+            "priority" => $updateTaskDTO->priority ?? $task->priority,
             "completed_at" => $updateTaskDTO->completed_at ?? $task->completed_at ?? null,
             "due_date" => $updateTaskDTO->due_date ?? $task->due_date ?? null
         ]);

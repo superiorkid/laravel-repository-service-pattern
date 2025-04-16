@@ -30,7 +30,6 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::prefix('{task_id}')->group(function () {
             Route::get("/", [TaskController::class, 'findById']);
 
-            // should wrap this inside admin only access middleware
             Route::middleware(["can:edit tasks", "can:delete tasks"])->group(function () {
                 Route::patch("/", [TaskController::class, 'update']);
                 Route::delete("/", [TaskController::class, 'delete']);

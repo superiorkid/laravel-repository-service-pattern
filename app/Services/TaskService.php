@@ -24,8 +24,7 @@ class TaskService
         }
 
         try {
-            $slug = Str::slug($createTaskDTO->title);
-            $this->taskRepository->save($createTaskDTO, $slug);
+            $this->taskRepository->save($createTaskDTO);
 
             return response()->json(["success" => true, "message" => "Task created!"], 200);
         } catch (\Exception $error) {
@@ -82,9 +81,7 @@ class TaskService
         }
 
         try {
-            $slug = $task->title !== $updateTaskDTO->title ? Str::slug($updateTaskDTO->title) : $task->slug;
-            $this->taskRepository->update($task, $updateTaskDTO, $slug);
-
+            $this->taskRepository->update($task, $updateTaskDTO);
             return response()->json(["success" => true, "message" => "Task updated successfully!"], 200);
         } catch (\Exception $error) {
             return response()->json(["success" => false, "message" => $error->getMessage()], 500);
