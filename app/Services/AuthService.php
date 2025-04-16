@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\DTO\SignInDTO;
 use App\DTO\SignUpDTO;
+use App\Enums\Role;
 use App\Repositories\UserRepository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
@@ -28,7 +29,10 @@ class AuthService {
             $hashedPassword = Hash::make($signUpDTO->password);
             $signUpDTO->password = $hashedPassword;
 
-            $this->userRepository->save($signUpDTO);
+            $newUser = $this->userRepository->save($signUpDTO);
+            if ($newUser) {
+                $newUser->assignRole(Role::USER->value);
+            }
 
             return response()->json(["success" => true, "message" => "Sign up successfully"], 201);
         } catch (\Exception $error) {
