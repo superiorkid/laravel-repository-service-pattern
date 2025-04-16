@@ -22,4 +22,5 @@ class UpdateTaskDTO extends DataTransferObject
 
     public ?string $due_date;
     public ?string $completed_at;
+    public ?int $user_id;
 }

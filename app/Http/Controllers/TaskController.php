@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AssignUserToTaskRequest;
 use App\Http\Requests\CreateTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use App\Services\TaskService;
@@ -32,7 +33,15 @@ class TaskController extends Controller
         return $this->taskService->delete($task_id);
     }
 
-    public function update(UpdateTaskRequest $request,  int $task_id): JsonResponse {
+    public function update(UpdateTaskRequest $request, int $task_id): JsonResponse {
         return $this->taskService->update($task_id, $request->toDTO());
+    }
+
+    public function assignTaskToUser(AssignUserToTaskRequest $request, int $task_id): JsonResponse {
+        return $this->taskService->assignTaskToUser($request->toDTO(), $task_id);
+    }
+
+    public function myTasks(): JsonResponse {
+        return $this->taskService->myTasks();
     }
 }

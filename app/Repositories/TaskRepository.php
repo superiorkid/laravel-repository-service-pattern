@@ -79,14 +79,24 @@ class TaskRepository
     public function update(Task $task, UpdateTaskDTO $updateTaskDTO): void {
         $task->update([
             "title" => $updateTaskDTO->title ?? $task->title,
-            "slug" => isset($updateTaskDTO->title) && $updateTaskDTO->title !== $task->title  ? Str::slug($updateTaskDTO->title) : $task->slug,
+            "slug" => isset($updateTaskDTO->title) && $updateTaskDTO->title !== $task->title
+                ? Str::slug($updateTaskDTO->title)
+                : $task->slug,
             "description" => $updateTaskDTO->description ?? $task->description,
             "category_id" => $updateTaskDTO->category_id ?? $task->category_id,
             "status" =>  $updateTaskDTO->status ?? $task->status,
             "priority" => $updateTaskDTO->priority ?? $task->priority,
             "completed_at" => $updateTaskDTO->completed_at ?? $task->completed_at ?? null,
-            "due_date" => $updateTaskDTO->due_date ?? $task->due_date ?? null
+            "due_date" => $updateTaskDTO->due_date ?? $task->due_date ?? null,
+            "user_id" => $updateTaskDTO->user_id ?? $task->user_id ?? null,
         ]);
+    }
+
+    public function isAssignedToUser(int $task_id, int $user_id): bool {
+        return Task::query()
+            ->where("id", $task_id)
+            ->where("user_id", $user_id)
+            ->exists();
     }
 }
 

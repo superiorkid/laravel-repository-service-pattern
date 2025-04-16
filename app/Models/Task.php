@@ -12,6 +12,7 @@ class Task extends Model
         "slug",
         "description",
         "category_id",
+        "user_id",
         "status",
         "priority",
         "due_date",
@@ -25,5 +26,9 @@ class Task extends Model
 
     public function category(): BelongsTo {
         return $this->belongsTo(Category::class);
+    }
+
+    public function user(): BelongsTo {
+        return $this->belongsTo(User::class);
     }
 }

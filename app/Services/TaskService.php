@@ -3,11 +3,9 @@
 namespace App\Services;
 
 use App\DTO\CreateTaskDTO;
-use App\DTO\UpdateCategoryDTO;
 use App\DTO\UpdateTaskDTO;
 use App\Repositories\TaskRepository;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Str;
 
 class TaskService
 {
@@ -83,6 +81,29 @@ class TaskService
         try {
             $this->taskRepository->update($task, $updateTaskDTO);
             return response()->json(["success" => true, "message" => "Task updated successfully!"], 200);
+        } catch (\Exception $error) {
+            return response()->json(["success" => false, "message" => $error->getMessage()], 500);
+        }
+    }
+
+    public function assignTaskToUser(UpdateTaskDTO $updateTaskDTO, int $task_id): JsonResponse {
+        $task = $this->taskRepository->findById($task_id);
+        if (!$task) {
+            return response()->json(["success" => false, "message" => "Task not found!"], 404);
+        }
+
+        try {
+            $this->taskRepository->update($task, $updateTaskDTO);
+            return response()->json(["success" => true, "message" => "Task assigned successfully!"], 200);
+        } catch (\Exception $error) {
+            return response()->json(["success" => false, "message" => $error->getMessage()], 500);
+        }
+    }
+
+    public function myTasks(): JsonResponse {
+        try {
+            $tasks = $this->taskRepository->findMany();
+            return response()->json(["success" => true, "message" => "Get tasks successfully.", "data" => $tasks], 200);
         } catch (\Exception $error) {
             return response()->json(["success" => false, "message" => $error->getMessage()], 500);
         }

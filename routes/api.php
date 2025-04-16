@@ -24,6 +24,8 @@ Route::middleware('auth:sanctum')->group(function () {
        });
     });
 
+    Route::get("my-tasks", [TaskController::class, 'myTasks']);
+
     Route::prefix('tasks')->group(function () {
         Route::get("/", [TaskController::class, 'list']);
 
@@ -34,7 +36,10 @@ Route::middleware('auth:sanctum')->group(function () {
                 Route::patch("/", [TaskController::class, 'update']);
                 Route::delete("/", [TaskController::class, 'delete']);
             });
+
+            Route::patch("/assign", [TaskController::class, 'assignTaskToUser'])->middleware(["can:assign tasks"]);
         });
+
     });
 });
 

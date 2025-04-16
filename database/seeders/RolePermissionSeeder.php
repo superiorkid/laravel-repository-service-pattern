@@ -26,7 +26,8 @@ class RolePermissionSeeder extends Seeder
             "create tasks",
             "view tasks",
             "edit tasks",
-            "delete tasks"
+            "delete tasks",
+            "assign tasks"
         ];
 
         foreach ($permissions as $permission) {
@@ -51,7 +52,7 @@ class RolePermissionSeeder extends Seeder
             ->first();
         if ($moderatorRole) {
             $moderatorRole->syncPermissions([
-                "view tasks", "edit tasks", "delete tasks"
+                "view tasks", "edit tasks", "delete tasks", "assign tasks"
             ]);
         }
 
