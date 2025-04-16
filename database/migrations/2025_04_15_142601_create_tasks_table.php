@@ -16,14 +16,13 @@ return new class extends Migration
     {
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
+            $table->string('title')->unique();
+            $table->string('slug');
             $table->text('description')->nullable();
             $table
                 ->enum('status', array_column(TaskStatus::cases(), 'value'))
                 ->default(TaskStatus::TODO->value);
-            $table
-                ->enum('priority', array_column(TaskPriority::cases(), "value"))
-                ->default(TaskPriority::LOW);
+            $table->enum('priority', array_column(TaskPriority::cases(), "value"));
             $table->unsignedBigInteger('category_id')->index();
             $table->timestamp('due_date')->nullable();
             $table->timestamp('completed_at')->nullable();
