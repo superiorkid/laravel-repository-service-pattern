@@ -7,6 +7,7 @@ use App\Enums\TaskPriority;
 use App\Enums\TaskStatus;
 use App\Models\Task;
 use Illuminate\Database\Eloquent\Collection;
+use Ramsey\Collection\Exception\CollectionException;
 
 class TaskRepository
 {
@@ -61,5 +62,11 @@ class TaskRepository
             "slug" => $slug,
             "description" => $description,
         ]);
+    }
+
+    public function findMany(): Collection {
+        return Task::query()
+            ->orderByDesc('created_at')
+            ->get();
     }
 }

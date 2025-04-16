@@ -34,4 +34,18 @@ class TaskService
             return response()->json(["success" => false, "message" => $error->getMessage()], 500);
         }
     }
+
+    public function listAll(): JsonResponse {
+        try {
+            $tasks = $this->taskRepository->findMany();
+
+            return response()->json([
+                "success" => true,
+                "message" => "Get tasks successfully.",
+                "data" => $tasks
+            ]);
+        } catch (\Exception $error) {
+            return response()->json(["success" => false, "message" => $error->getMessage()], 500);
+        }
+    }
 }

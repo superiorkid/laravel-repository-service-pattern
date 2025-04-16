@@ -19,4 +19,8 @@ class TaskController extends Controller
     public function create(CreateTaskRequest $request): JsonResponse{
         return $this->taskService->create($request->toDTO());
     }
+
+    public function list(): JsonResponse {
+        return $this->taskService->listAll();
+    }
 }

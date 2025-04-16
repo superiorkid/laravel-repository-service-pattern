@@ -25,7 +25,7 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::prefix('tasks')->group(function () {
-        Route::get("/", []);
+        Route::get("/", [TaskController::class, 'list']);
 
         Route::prefix('{task_id}')->group(function () {
             Route::get("/", []);
